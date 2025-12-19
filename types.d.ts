@@ -17,6 +17,7 @@ declare module 'motia' {
     'GenerateReport': ApiRouteHandler<Record<string, unknown>, ApiResponse<200, { success?: boolean; report?: unknown }>, never>
     'GeneratePDF': ApiRouteHandler<Record<string, unknown>, ApiResponse<200, { success?: boolean; pdf?: string; filename?: string }>, never>
     'GenerateDietRecommendation': ApiRouteHandler<Record<string, unknown>, ApiResponse<200, { success?: boolean; dietRecommendation?: unknown }>, never>
+    'DiseasePrediction': ApiRouteHandler<Record<string, unknown>, ApiResponse<200, { success?: boolean; prediction?: unknown }>, never>
     'AnalyzeLabResults': ApiRouteHandler<Record<string, unknown>, ApiResponse<200, { success?: boolean; analysis?: unknown }>, never>
     'AnalyzeImage': ApiRouteHandler<Record<string, unknown>, ApiResponse<200, { success?: boolean; findings?: unknown; metadata?: unknown }>, never>
     'ProcessGreeting': EventHandler<{ timestamp: string; appName: string; greetingPrefix: string; requestId: string }, never>
