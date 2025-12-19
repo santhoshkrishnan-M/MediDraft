@@ -27,6 +27,7 @@ Your complete, production-ready Medical Report Drafting System is now running su
 - ✅ Report Generation API
 - ✅ AI Diet Recommendations API
 - ✅ PDF Export API
+- ✅ **Disease Prediction Engine** 🆕
 
 ### System Components ✅
 - ✅ Motia Server (Port 3000)
@@ -36,15 +37,22 @@ Your complete, production-ready Medical Report Drafting System is now running su
 
 ---
 
-## 📋 HOW TO USE
+## 📋 FEATURES
 
+### 🏥 Report Generation Mode
 1. **Upload Image** - Drag & drop medical image (X-Ray/MRI/CT)
 2. **Patient Info** - Enter patient details
 3. **Lab Results** - Input test values
 4. **Generate** - Click "Start Analysis"
 5. **Download** - Export PDF report
 
-See **USAGE.md** for detailed instructions.
+### 🔬 Disease Prediction Mode 🆕
+1. **Patient Details** - Enter age and gender
+2. **Scan Findings** - Describe imaging observations
+3. **Lab Values** - Input blood test results
+4. **Predict** - Get AI-powered disease predictions with confidence scores
+
+See **USAGE.md** for report generation and **DISEASE_PREDICTION.md** for prediction engine details.
 
 ---
 
