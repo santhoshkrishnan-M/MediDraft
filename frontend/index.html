@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Report Drafting System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        .progress-step {
+            transition: all 0.3s ease;
+        }
+        .step-active {
+            background: #3b82f6;
+            color: white;
+        }
+        .step-complete {
+            background: #10b981;
+            color: white;
+        }
+        .step-inactive {
+            background: #e5e7eb;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <header class="text-center mb-8">
+            <div class="flex items-center justify-center gap-3 mb-2">
+                <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <h1 class="text-4xl font-bold text-gray-800">Medical Report Drafting System</h1>
+            </div>
+            <p class="text-gray-600 text-lg">"AI-Assisted Diagnostic Report Generation"</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Patient Information Card</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Patient ID:</label>
+                            <input type="text" id="patientId" placeholder="P-123456789" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Study Date:</label>
+                            <input type="date" id="studyDate" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Patient Name:</label>
+                            <input type="text" id="patientName" placeholder="John A. Doe" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Image Type:</label>
+                            <select id="imageType" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>MRI - Brain</option>
+                                <option>CT Scan - Chest</option>
+                                <option>X-Ray - Chest</option>
+                                <option>MRI - Spine</option>
+                                <option>CT Scan - Abdomen</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Age:</label>
+                            <input type="number" id="age" placeholder="45" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Gender:</label>
+                            <select id="gender" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Diagnostic Image Upload Card</h2>
+                    <div id="dropZone" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-blue-50 cursor-pointer hover:bg-blue-100 transition">
+                        <svg class="w-16 h-16 text-blue-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        <p class="text-gray-700 font-medium">Drag & Drop Diagnostic Images Here</p>
+                        <p class="text-gray-500 text-sm">or Click to Browse</p>
+                        <input type="file" id="fileInput" accept="image/*" class="hidden">
+                    </div>
+                    <div id="filePreview" class="mt-4 hidden">
+                        <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-md">
+                            <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <div class="flex-1">
+                                <p id="fileName" class="font-medium text-gray-800"></p>
+                                <p id="fileSize" class="text-sm text-gray-500"></p>
+                            </div>
+                            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <button id="analyzeBtn" class="w-full mt-4 bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>
+                        Analyze Image →
+                    </button>
+                </div>
+
+                <div id="labResultsCard" class="bg-white rounded-lg shadow-md p-6 mb-6 hidden">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Enter Lab Results</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Hemoglobin (g/dL)</label>
+                            <input type="number" id="hemoglobin" placeholder="14.5" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Blood Sugar (mg/dL)</label>
+                            <input type="number" id="bloodSugar" placeholder="95" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Cholesterol (mg/dL)</label>
+                            <input type="number" id="cholesterol" placeholder="180" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">BP Systolic (mmHg)</label>
+                            <input type="number" id="bpSystolic" placeholder="120" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">BP Diastolic (mmHg)</label>
+                            <input type="number" id="bpDiastolic" placeholder="80" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Creatinine (mg/dL)</label>
+                            <input type="number" id="creatinine" placeholder="1.0" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                    <button id="generateReportBtn" class="w-full mt-4 bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-700 transition">
+                        Generate Report →
+                    </button>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Workflow Progress Indicator</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div id="step1" class="w-10 h-10 rounded-full flex items-center justify-center step-inactive progress-step">
+                                <span class="font-semibold">1</span>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-700">Upload Image</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div id="step2" class="w-10 h-10 rounded-full flex items-center justify-center step-inactive progress-step">
+                                <span class="font-semibold">2</span>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-700">Enter Lab Results</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div id="step3" class="w-10 h-10 rounded-full flex items-center justify-center step-inactive progress-step">
+                                <span class="font-semibold">3</span>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-700">Review & Approve</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Status & Feedback Area</h2>
+                    <div id="statusArea">
+                        <div class="text-gray-500 text-center py-4">
+                            <p>Ready to begin analysis</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div class="flex gap-2">
+                        <svg class="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <div>
+                            <h3 class="font-semibold text-yellow-800 mb-1">AI Disclaimer Banner</h3>
+                            <p class="text-sm text-yellow-700">AI-Generated Reports – For Review Purposes Only – Not a Medical Diagnosis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="reportCard" class="bg-white rounded-lg shadow-md p-8 mb-6 hidden">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Generated Medical Report</h2>
+            
+            <div id="reportContent" class="space-y-6">
+            </div>
+
+            <div class="mt-8 flex gap-4 justify-center">
+                <button id="downloadPdfBtn" class="bg-blue-600 text-white px-8 py-3 rounded-md font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    Download Report (PDF)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>
